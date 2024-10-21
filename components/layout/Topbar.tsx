@@ -15,7 +15,9 @@ import Image from "next/image"
 import Link from "next/link"
 // Preferido sobre <a> para navegación interna porque permite una navegación más rápida sin recargar la página completa
 
-import { Button } from "./ui/button"
+// Importa el componente del botón
+
+import { Button } from "@/components/ui/button"
 
 const Topbar = () => {
     // Usamos useAuth para adaptar la UI basándonos en si el usuario ha iniciado sesión o no
@@ -23,7 +25,7 @@ const Topbar = () => {
     
     // Definimos las rutas aquí para facilitar cambios futuros y mantener el código DRY (Don't Repeat Yourself)
     const topRoutes = [
-        { label: "Instructor", path: "/instructor" },
+        { label: "Instructor", path: "/instructor/courses" },
         { label: "Learning", path: "/learning" },
     ];
 
