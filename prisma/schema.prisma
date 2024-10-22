@@ -19,8 +19,8 @@ model Course {
   instructorId String
   title String @db.Text
   subtitle String? @db.Text
-  description String @db.Text
-  imageUrl String @db.Text
+  description String? @db.Text
+  imageUrl String? @db.Text
   price Float?
   isPublished Boolean @default(false)
 
@@ -30,8 +30,8 @@ model Course {
   subCategoryId String
   subCategory SubCategory @relation(fields: [subCategoryId], references: [id])
 
-  levelId String
-  level Level @relation(fields: [levelId], references: [id])
+  levelId String?
+  level Level? @relation(fields: [levelId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
