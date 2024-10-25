@@ -37,7 +37,7 @@ interface CreateCourseFormProps {
     label: string //name of category
     value: string // categoryId
     subCategories: {label: string, value: string}[]
-  }[]
+  }[];
 }
 
 const CreateCourseForm = ({ categories }: CreateCourseFormProps) => {

@@ -1,5 +1,6 @@
 import { ourFileRouter } from "@/app/api/uploadthing/core";
 import { UploadDropzone } from "@/lib/uploadthing";
+import Image from "next/image";
 import toast from "react-hot-toast";
 
 interface FileUploadProps {
@@ -10,6 +11,11 @@ interface FileUploadProps {
 
 const FileUpload = ({ value, onChange, endpoint }: FileUploadProps) => {
   return (
+    <div className="flex flex-col gap-2">
+      {value !== "" && (
+        <Image src={value} alt="image" width={500} height={500} className="w-[280px] h-[200px] object-cover rounded-xl"/>
+      )}
+    
     <UploadDropzone
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
@@ -20,6 +26,7 @@ const FileUpload = ({ value, onChange, endpoint }: FileUploadProps) => {
       }}
       className="w-[280px] h-[200px]"
     />
+    </div>
   );
 };
 

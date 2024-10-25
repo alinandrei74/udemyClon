@@ -19,6 +19,10 @@ import { Input } from "@/components/ui/input";
 import RichEditor from "@/components/custom/RichEditor";
 import { ComboBox } from "../custom/ComboBox";
 import FileUpload from "../custom/FileUpload";
+import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -52,6 +56,7 @@ const EditCourseForm = ({
   categories,
   levels,
 }: EditCourseFormProps) => {
+  const router = useRouter()
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,11 +72,16 @@ const EditCourseForm = ({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      await axios.patch(`/api/courses/${course.id}`, values)
+      toast.success("Course Updated")
+      router.refresh()
+    } catch (err) {
+      console.log("Failed to update new course", err)
+      toast.error("Something went wrong!")
+    }
+   }
 
   return (
     <Form {...form}>
@@ -97,7 +107,7 @@ const EditCourseForm = ({
           name="subtitle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subtitleitle</FormLabel>
+              <FormLabel>Subtitle</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Ex:Became a Full.stack Develiper with just one course. HTML, Javascript, etc"
@@ -173,7 +183,9 @@ const EditCourseForm = ({
               </FormItem>
             )}
           />
-          <FormField
+          
+        </div>
+        <FormField
             control={form.control}
             name="imageUrl"
             render={({ field }) => (
@@ -190,8 +202,30 @@ const EditCourseForm = ({
               </FormItem>
             )}
           />
+
+<FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  step="0.01"
+                  placeholder="29.99"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex gap-5">
+          <Link href="/instructor/courses"><Button variant="outline" type="button">Cancel</Button></Link>
+          
+        <Button type="submit">Save</Button>
         </div>
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
